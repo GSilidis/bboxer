@@ -1,3 +1,3 @@
-requests
-shapely
-osmdiff
+osmdiff==0.1.8
+requests==2.22.0
+Shapely==1.6.4.post2
