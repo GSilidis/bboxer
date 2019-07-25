@@ -4,14 +4,11 @@ from shapely.geometry import Polygon
 
 class BoundingBox(object):
 
-    SAFE_DISTANCE = 5
-    PERCENTAGE_TO_MERGE = 30
-
     """
     Distance to include point in current bbox
     """
-    def get_safe_distance(self):
-        return self.SAFE_DISTANCE if self.radius < self.SAFE_DISTANCE else self.radius
+    def get_merge_distance(self):
+        return self.merge_distance if self.radius < self.merge_distance else self.radius
 
     """
     Normalize trigonometric values
@@ -112,7 +109,7 @@ class BoundingBox(object):
         else:
             current_area = self.get_poly().area
             percentage = area / (current_area / 100)
-            return percentage >= self.PERCENTAGE_TO_MERGE
+            return percentage >= self.percentage_to_merge
 
     """
     Constructs bounding box
@@ -120,7 +117,7 @@ class BoundingBox(object):
     :param ES: South-East [longitude, latitude] 
     :param WN: North-West [longitude, latitude] 
     """
-    def __init__(self, ES, WN):
+    def __init__(self, ES, WN, merge_distance, merge_percentage):
         self.N = float(WN[1])
         self.E = float(ES[0])
         self.S = float(ES[1])
@@ -128,6 +125,8 @@ class BoundingBox(object):
         self._recalculate_centroid()
         self.poly = None
         self.merged = False
+        self.merge_distance = merge_distance
+        self.percentage_to_merge = merge_percentage
 
     """
     Check if current Node-like object is in bounding box

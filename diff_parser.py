@@ -5,6 +5,9 @@ from bbox import BoundingBox
 
 bboxes = []
 
+mergeDistance = 0
+mergePercentage = 0
+
 
 def parse_object(osm_object):
     object_type = 0
@@ -14,7 +17,7 @@ def parse_object(osm_object):
             if bbox.__contains__(osm_object):
                 inserted = True
             else:
-                if bbox.distance_to_osm_object(osm_object) < bbox.get_safe_distance():
+                if bbox.distance_to_osm_object(osm_object) < bbox.get_merge_distance():
                     bbox.insert_object(osm_object)
                     inserted = True
 
@@ -23,7 +26,7 @@ def parse_object(osm_object):
             bbox = BoundingBox([float(osm_object.attribs['lon']) + 0.0001,
                                 float(osm_object.attribs['lat']) - 0.0001],
                                [float(osm_object.attribs['lon']),
-                                float(osm_object.attribs['lat'])])
+                                float(osm_object.attribs['lat'])], mergeDistance, mergePercentage)
             bboxes.append(bbox)
         object_type = 1
     if type(osm_object) == osm.osm.Way:
@@ -33,10 +36,16 @@ def parse_object(osm_object):
     return object_type
 
 
-def parse_diff(file, verbose):
+def parse_diff(file, configMergeDistance, configPercentageToMerge, verbose):
     nodes_count = 0
     ways_count = 0
     relations_count = 0
+
+    global mergeDistance
+    mergeDistance = configMergeDistance
+    global mergePercentage
+    mergePercentage = configPercentageToMerge
+
 
     d = OSMChange(file=file)
 

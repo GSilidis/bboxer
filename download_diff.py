@@ -1,11 +1,9 @@
 import requests
 import gzip
 
-BASE_URL = 'https://download.geofabrik.de/russia-updates'
 
-
-def download(verbose):
-    response = requests.get(BASE_URL + '/state.txt')
+def download(base_url, verbose):
+    response = requests.get(base_url + '/state.txt')
     if response.status_code != 200:
         print('Unable to get current state')
         exit(-1)
@@ -23,7 +21,7 @@ def download(verbose):
         print('State received, current sequence: {}'.format(sequence_number))
 
     osm_sequence = str(sequence_number).zfill(9)
-    diff_url = BASE_URL + ('/{}/{}/{}.osc.gz'.format(osm_sequence[:3], osm_sequence[3:6], format(osm_sequence[6:])))
+    diff_url = base_url + ('/{}/{}/{}.osc.gz'.format(osm_sequence[:3], osm_sequence[3:6], format(osm_sequence[6:])))
 
     diff_file = open("diff-latest.osc", "wb+")
 
