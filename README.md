@@ -1,23 +1,39 @@
 # B-Boxer
 Generate smart bounding boxes of changed objects in OSM
-
 _Warning: only simple diff files are supported, augmented diffs are not supported_
+_Only nodes changes supported at this moment_
+
+## Purpose of this project
+
+This tool might be useful if you host only tile cache for osm servers and dont want to setup any DB for tile cache 
+invalidation. With bboxer you could just diff files from planet.osm. By default, this tool generates bounding boxes in 
+format that is used in mapproxy-seed cleanup tasks.
 
 # Usage
-
-Basic usage:
+ First, you need to create config file. Example of config file: config.example.ini. By default,
+ bboxer is looking for file ./config.ini, you could use -c options to use own config file location
 ```
-# Downloads latest changeset for russia and outputs bounding boxes to console
+$ python3 main.py -c ./config.example.ini
+```
+
+ After creating file you could just launch bboxer like this:
+```
+# Downloads latest changeset and outputs bounding boxes to console
 $ python3 main.py -d 
 ```
 
-All console params:
+To get all available console params:
 ```
 $ python3 main.py --help
 ```
 
-# Dependencies
+## Config file structure
 
-* python3
-* osmdiff
-* shapely
+### Section 'Download'
+
+* DiffBaseUrl - URL to diff file repository. ${DiffBaseUrl}/state.txt should be accessible for getting current sequence number
+
+### Section 'BboxParser'
+
+* MergeDistance - If distance (in Kilometers) from changed node to bounding box centroid is less or equal - bbox extends to this node
+* PrecentageToMerge - If this percentage of bounding box area intersects with another bbox - another bbox will be merged into current 
