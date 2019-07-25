@@ -15,7 +15,7 @@ arguments = parser.parse_args()
 
 inputFile = None
 if arguments.download is True:
-    if arguments.input_filename is True:
+    if arguments.input_filename is not None:
         print('Downloading new diff file, key -i is useless')
     download_diff.download(arguments.verbose)
     inputFile = 'diff-latest.osc'
