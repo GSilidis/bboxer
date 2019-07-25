@@ -17,6 +17,7 @@ def download(verbose):
 
     if sequence_number < 0:
         print('Unable to get sequence number from {}'.format(response.url))
+        exit(-1)
 
     if verbose is True:
         print('State received, current sequence: {}'.format(sequence_number))
