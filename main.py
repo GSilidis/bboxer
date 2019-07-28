@@ -6,8 +6,7 @@ from argparse import ArgumentParser
 parser = ArgumentParser(description='Generate bounding boxes for osm changesets')
 parser.add_argument('-i', '--input-file', dest='input_filename', help='Location of OSM diff file')
 parser.add_argument('-d', '--download', action='store_true', dest='download', help='Downloads latest OSM diff file '
-                                                                                   '(Russian daily changeset, '
-                                                                                   'from geofabrik)')
+                                                                                   '(from DiffBaseUrl in config)')
 parser.add_argument('-o', '--output-file', dest='output_filename', help='File for output bboxes')
 parser.add_argument('-g', '--as-geojson', action='store_true', dest='geojson', help='Output bboxes as GeoJSON polygons')
 parser.add_argument('-v', '--verbose', action='store_true', dest='verbose', help='Verbose output')
