@@ -65,7 +65,7 @@ if arguments.geojson is True:
                                       c=(str(updateBounds.E) + ',' + str(updateBounds.N)),
                                       d=(str(updateBounds.E) + ',' + str(updateBounds.S)))
                    )
-    result += ']}'
+    result = result[:-3] + ']}'
 else:
     for updateBounds in bboxes:
         iterator += 1
