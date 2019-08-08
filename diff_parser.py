@@ -7,6 +7,7 @@ bboxes = []
 
 mergeDistance = 0
 mergePercentage = 0
+polygonMinSize = 0
 
 
 def parse_object(osm_object):
@@ -23,8 +24,8 @@ def parse_object(osm_object):
 
         if not inserted:
             # Some tools, like mapproxy-seed, doesnt want to work with polygons that have all points at the same spot
-            bbox = BoundingBox([float(osm_object.attribs['lon']) + 0.0001,
-                                float(osm_object.attribs['lat']) - 0.0001],
+            bbox = BoundingBox([float(osm_object.attribs['lon']) + polygonMinSize,
+                                float(osm_object.attribs['lat']) - polygonMinSize],
                                [float(osm_object.attribs['lon']),
                                 float(osm_object.attribs['lat'])], mergeDistance, mergePercentage)
             bboxes.append(bbox)
@@ -36,7 +37,7 @@ def parse_object(osm_object):
     return object_type
 
 
-def parse_diff(file, configMergeDistance, configPercentageToMerge, verbose):
+def parse_diff(file, configMergeDistance, configPercentageToMerge, polygonMinimumSize, verbose):
     nodes_count = 0
     ways_count = 0
     relations_count = 0
@@ -45,7 +46,8 @@ def parse_diff(file, configMergeDistance, configPercentageToMerge, verbose):
     mergeDistance = configMergeDistance
     global mergePercentage
     mergePercentage = configPercentageToMerge
-
+    global polygonMinSize
+    polygonMinSize = polygonMinimumSize
 
     d = OSMChange(file=file)
 

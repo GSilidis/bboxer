@@ -37,3 +37,6 @@ $ python3 main.py --help
 
 * MergeDistance - If distance (in Kilometers) from changed node to bounding box centroid is less or equal - bbox extends to this node
 * PrecentageToMerge - If this percentage of bounding box area intersects with another bbox - another bbox will be merged into current 
+* PolygonMinSize - When bbox polygon is created from point it has next coordinates: 
+(point.lon + PolygonMinSize, point.lat - PolygonMinSize, point.lon, point.lat). This param is used for tools that 
+require bbox to have certain minimal size. Set 0.02 for mapproxy-seed, set 0.0 if you need bboxes to be as small as possible.

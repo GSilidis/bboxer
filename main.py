@@ -49,6 +49,7 @@ else:
 bboxes = diff_parser.parse_diff(inputFile,
                                 int(configParser.get('BboxParser', 'MergeDistance')),
                                 int(configParser.get('BboxParser', 'PercentageToMerge')),
+                                float(configParser.get('BboxParser', 'PolygonMinSize')),
                                 arguments.verbose)
 
 # Output
