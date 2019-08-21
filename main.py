@@ -75,6 +75,7 @@ else:
 if arguments.output_filename is not None:
     out_file = open(arguments.output_filename, "w+")
     out_file.write(result)
+    out_file.close()
 else:
     print('Output file is not specified, output to console')
     print(result)
